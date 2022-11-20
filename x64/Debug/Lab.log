@@ -1,7 +1,9 @@
 ﻿  Content.cpp
   Feed.cpp
-  Post.cpp
   main.cpp
-C:\Users\pyata\Desktop\Lab 1\main.cpp(65,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\pyata\Documents\GitHub\News-Feed\main.cpp(65,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Post.cpp
+  String.cpp
   Создание кода...
-  Lab.vcxproj -> C:\Users\pyata\Desktop\Lab 1\x64\Debug\Lab.exe
+  LINK : не найден или не выполнена сборка C:\Users\pyata\Documents\GitHub\News-Feed\x64\Debug\Lab.exe при последней инкрементной компоновке; выполняется полная компоновка
+  Lab.vcxproj -> C:\Users\pyata\Documents\GitHub\News-Feed\x64\Debug\Lab.exe
