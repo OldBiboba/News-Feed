@@ -1,0 +1,3 @@
+C:\Users\pyata\Desktop\Lab\x64\Debug\Lab.exe
+C:\Users\pyata\Desktop\Lab 1\x64\Debug\Lab.exe
+C:\Users\pyata\Desktop\Lab 1\x64\Debug\Lab.pdb

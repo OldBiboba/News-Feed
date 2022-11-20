@@ -1,0 +1,7 @@
+﻿  Content.cpp
+  Feed.cpp
+  Post.cpp
+  main.cpp
+C:\Users\pyata\Desktop\Lab 1\main.cpp(65,12): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Создание кода...
+  Lab.vcxproj -> C:\Users\pyata\Desktop\Lab 1\x64\Debug\Lab.exe
