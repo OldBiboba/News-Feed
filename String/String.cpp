@@ -14,24 +14,25 @@ String::String(const char* str) {
 
 String::String(const String& s) {
 	length = s.get_length();
-	data = new char[length];
-	copy_str(data, s.get_string(), length);
+	data = s.get_string();
 }
 
 String::~String() {
-		delete[] data;
+	delete[] data;
 }
 
 int String::get_length() const {
 	return length;
 }
 
-const char* String::get_string() const{
-	return data;
+char* String::get_string() const{
+	char* result = new char[length];
+	copy_str(result, (const char*)data, length);
+	return result;
 }
 
 
-void String::set_str(const char* str){
+void String::set_str(const char* str) {
 	delete[] data;
 	length = str_length(str);
 	data = new char[length];
@@ -50,17 +51,19 @@ void String::add_str(const char* str) {
 }
 
 
-void String::add_str(const String& str){
+void String::add_str(const String& str) {
 	int str_len = str.get_length();
-	char* temp = new char[length - 1 + str_len];
-	copy_str(temp, data, length - 1);
-	copy_str(temp + length - 1, str.get_string(), str_len);
+	char* new_data = new char[length - 1 + str_len];
+	copy_str(new_data, data, length - 1);
+	char* temp = str.get_string();
+	copy_str(new_data + length - 1, temp, str_len);
+	delete[] temp;
 	delete[] data;
-	data = temp;
+	data = new_data;
 	length += str_len - 1;
 }
 
-void String::add_str(int num){
+void String::add_str(int num) {
 	int str_length = 1;
 	if (num == 0) {
 		str_length = 1;
@@ -76,16 +79,15 @@ void String::add_str(int num){
 	do {
 		str[--str_length] = num % 10 + '0';
 		num /= 10;
-	} 	while (num != 0);
+	} while (num != 0);
 	add_str(str);
 	delete[] str;
 }
 
-void String::operator=(const String& str){
+void String::operator=(const String& str) {
 	delete[] data;
 	length = str.get_length();
-	data = new char[length];
-	copy_str(data, str.get_string(), length);
+	data = str.get_string();
 }
 
 int String::str_length(const char* str) {
@@ -95,7 +97,7 @@ int String::str_length(const char* str) {
 	}
 }
 
-void String::copy_str(char* dest, const char* str, int size) {
+void String::copy_str(char* dest, const char* str, int size) const{
 	for (int i = 0; i < size; i++) {
 		dest[i] = str[i];
 	}

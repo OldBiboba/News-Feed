@@ -103,7 +103,9 @@ void Feed::one_post_interface()
 void Feed::print_post(int post_idx) {
 	String post;
 	post_array.get_element(post_idx).get_post(post);
-	cout << "________________________" << endl << post.get_string() << "________________________" << endl << endl;
+	char* c_post = post.get_string();
+	cout << "________________________" << endl << c_post << "________________________" << endl << endl;
+	delete[] c_post;
 }
 
 #if 0

@@ -43,13 +43,14 @@ public:
 	//Работа с комментариями
 
 	void add_comment(const char* comment);
+	void add_comment(String& comment);
 	int get_comment_count() const;
-	const char* get_comment(int idx) const;
+	char* get_comment(int idx) const;
 
 
 	//Работа с метаданными
 
-	const char* get_author() const;
+	char* get_author() const;
 	time_t get_date() const;
 	
 

@@ -12,13 +12,13 @@ public:
 
 	//Работа с содержимым
 
-	const char* get_data() const;
+	char* get_data() const;
 	void set_data(const char* new_data);
 
 
 	//Работа с метаданными
 
-	const char* get_author() const;
+	char* get_author() const;
 	time_t get_date() const;
 
 
