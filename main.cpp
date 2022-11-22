@@ -64,13 +64,6 @@ void feed_test() {
 int main() {
 	srand(time(NULL));
 
-#if 0
-	//TODO fix encapsulation violation
-	String obj("test string");
-	const char* temp = obj.get_string();
-	delete[] temp;
-	cout << obj.get_string() << endl;
-#endif
 	feed_test();
 	
 	return 0;

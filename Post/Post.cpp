@@ -32,12 +32,12 @@ Post::Post() : author{ "Default User" } {
 	date = time(NULL);
 }
 
-Post::Post(const char* new_author) : author{new_author} {
+Post::Post(const char* new_author) : author{ new_author } {
 	likes_count = 0;
 	date = time(NULL);
 }
 
-Post::Post(Post& another) : author{ another.get_author() }, comments{ another.get_comment_count() }, content_array{another.get_content_count()}  {
+Post::Post(Post& another) : author{ another.author }, comments{ another.get_comment_count() }, content_array{ another.get_content_count() }  {
 	likes_count = another.get_likes_count();
 	date = time(NULL);
 
@@ -46,11 +46,11 @@ Post::Post(Post& another) : author{ another.get_author() }, comments{ another.ge
 	}
 
 	for (int i = 0; i < another.get_comment_count(); i++) {
-		add_comment(another.get_comment(i));
+		add_comment(another.comments.get_element(i));
 	}
 }
 
-Post::~Post(){}
+Post::~Post() {}
 
 void Post::add_content(const Content& new_content) {
 	content_array.add_element(new_content);
@@ -66,11 +66,11 @@ void Post::change_content(int idx, const char* new_data) {
 	content_array.get_element(idx).set_data(new_data);
 }
 
-int Post::get_content_count() const{
+int Post::get_content_count() const {
 	return content_array.get_count();
 }
 
-const Content& Post::get_content_by_idx(int idx) const{
+const Content& Post::get_content_by_idx(int idx) const {
 	return content_array.get_element(idx);
 }
 
@@ -84,11 +84,11 @@ void Post::remove_like() {
 	}
 }
 
-int Post::get_likes_count() const{
+int Post::get_likes_count() const {
 	return likes_count;
 }
 
-const char* Post::get_author() const {
+char* Post::get_author() const {
 	return author.get_string();
 }
 
@@ -101,11 +101,16 @@ void Post::add_comment(const char* comment) {
 	comments.add_element(comment);
 }
 
-int Post::get_comment_count() const{
+void Post::add_comment(String& comment){
+	comments.add_element(comment);
+}
+
+
+int Post::get_comment_count() const {
 	return comments.get_count();
 }
 
-const char* Post::get_comment(int idx) const{
+char* Post::get_comment(int idx) const {
 	if (idx >= 0 && idx < comments.get_count()) {
 		return comments.get_element(idx).get_string();
 	}
@@ -115,12 +120,14 @@ const char* Post::get_comment(int idx) const{
 
 void Post::get_post(String& buffer) const {
 	for (int i = 0; i < content_array.get_count(); i++) {
-		buffer.add_str(content_array.get_element(i).get_data());
+		char* temp = content_array.get_element(i).get_data();
+		buffer.add_str(temp);
+		delete[] temp;
 		buffer.add_str("\n");
 	}
 
 	buffer.add_str("-\nAuthor: ");
-	buffer.add_str(author.get_string());
+	buffer.add_str(author);
 
 	buffer.add_str("\nLikes: ");
 	buffer.add_str(likes_count);
@@ -137,8 +144,8 @@ void Post::get_post(String& buffer) const {
 	}
 }
 
-void Post::operator=(const Post& another){
-	author.set_str(another.get_author());
+void Post::operator=(const Post& another) {
+	author = another.author;
 	date = another.get_date();
 	likes_count = another.get_likes_count();
 
@@ -147,13 +154,11 @@ void Post::operator=(const Post& another){
 	}
 
 	for (int i = 0; i < another.get_comment_count(); i++) {
-		add_comment(another.get_comment(i));
+		add_comment(another.comments.get_element(i));
 	}
 
 }
 
-const char* Post::get_type(){
+const char* Post::get_type() {
 	return "User Post";
 }
-
-
