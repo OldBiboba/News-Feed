@@ -1,9 +1,0 @@
-C:\Users\pyata\Desktop\Новая папка\Lab\Debug\Lab.exe
-C:\Users\pyata\Desktop\Новая папка\Lab\Debug\Lab.pdb
-C:\Users\pyata\Desktop\Lab\Debug\Lab.exe
-C:\Users\pyata\Desktop\Lab — копия\Debug\Lab.exe
-C:\Users\pyata\Desktop\Lab — копия\Debug\Lab.pdb
-D:\books\3 semester\прога\Lab\Debug\Lab.exe
-C:\Users\pyata\Desktop\new\Lab\Debug\Lab.exe
-C:\Users\pyata\Desktop\new\Lab\Debug\Lab.pdb
-H:\Lab\Debug\Lab.exe

@@ -1,6 +1,0 @@
-C:\Users\pyata\Desktop\Lab\x64\Debug\Lab.exe
-C:\Users\pyata\Desktop\Lab 1\x64\Debug\Lab.exe
-C:\Users\pyata\Desktop\Lab 1\x64\Debug\Lab.pdb
-C:\Users\pyata\Documents\GitHub\News-Feed\x64\Debug\Lab.exe
-C:\Users\pyata\Documents\GitHub\News-Feed\x64\Debug\Lab.pdb
-E:\GitHub\News-Feed\x64\Debug\Lab.exe
