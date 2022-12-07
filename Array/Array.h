@@ -1,6 +1,11 @@
 #pragma once
 #define MIN_CAPACITY 10
 #include <algorithm>
+#include "../String/String.h"
+#include "../Content/Content.h"
+#include "../Post/Post.h"
+
+class Post;
 
 template <typename T>
 class Array
@@ -41,11 +46,26 @@ public:
 		return *(data[idx]);
 	}
 	
-	void add_element(const T& element) {
+
+
+	void add_element(const String& element) {
 		check_capacity();
-		data[count] = new T;
+		data[count] = new String;
 		*(data[count++]) = element;
 	}
+
+	void add_element(const Post& element) {
+		check_capacity();
+		data[count] = new Post;
+		*(data[count++]) = element;
+	}
+
+	void add_element(const Content& element) {
+		check_capacity();
+		data[count++] = element.clone();
+	}
+
+
 
 	void remove_element(int idx) {
 		if (idx >= 0 && idx < count) {

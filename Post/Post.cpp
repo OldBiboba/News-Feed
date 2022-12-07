@@ -56,6 +56,7 @@ void Post::add_content(const Content& new_content) {
 	content_array.add_element(new_content);
 }
 
+
 void Post::remove_content(int idx) {
 	for (int i = idx; i < content_array.get_count(); i++) {
 		content_array.remove_element(idx);
@@ -98,7 +99,8 @@ time_t Post::get_date() const {
 
 
 void Post::add_comment(const char* comment) {
-	comments.add_element(comment);
+	String temp(comment);
+	comments.add_element(temp);
 }
 
 void Post::add_comment(String& comment){

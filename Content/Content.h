@@ -6,15 +6,16 @@ using namespace std;
 class Content {
 public:
 	Content();
-	Content(const char* new_data);
+	Content(const char* new_author);
 	Content(const Content& c);
-	~Content();
+	virtual ~Content();
 
 	//Работа с содержимым
 
-	char* get_data() const;
-	void set_data(const char* new_data);
+	virtual char* get_data() const = 0;
+	virtual void set_data(const char* new_data) = 0;
 
+	virtual Content* clone() const = 0;
 
 	//Работа с метаданными
 
@@ -23,12 +24,66 @@ public:
 
 
 	//Получить тип содержимого
-	static const char* get_type();
+	virtual const char* get_type();
 
 	void operator =(const Content& another);
 
-private:
-	String data;
+
+protected:
 	String author;
 	time_t date;
+};
+
+
+
+
+class Text_Content : public Content {
+public:
+	Text_Content();
+	Text_Content(const char* new_text, const char* new_author);
+	Text_Content(const Text_Content& c);
+	~Text_Content() override;
+
+	char* get_data() const override;
+	void set_data(const char* new_data) override;
+
+	Text_Content* clone() const override;
+
+	void operator=(const Text_Content& another);
+
+	const char* get_type() override;
+
+
+protected:
+	String data;
+};
+
+
+
+
+
+class Image_Content : public Content {
+public:
+	Image_Content();
+	Image_Content(const char* new_picture, const char* new_device_name,
+		int new_color_depth, const char* new_author);
+	Image_Content(const Image_Content& c);
+	~Image_Content() override;
+
+	char* get_data() const override;
+	void set_data(const char* new_data) override;
+
+	Image_Content* clone() const override;
+
+	char* get_device_name() const;
+	int get_color_depth() const;
+
+	void operator=(const Image_Content& another);
+
+	const char* get_type() override;
+protected:
+	String picture;
+
+	String device_name;
+	int color_depth;
 };

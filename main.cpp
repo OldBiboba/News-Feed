@@ -6,20 +6,22 @@ using namespace std;
 
 void feed_test() {
 	cout << "Posts generating..." << endl;
-	Content c1;
-	Content c2("test content string");
-	Content c3(c2);
+	Text_Content tc1;
+	Text_Content tc2("test content string", "User1");
+	Text_Content tc3(tc2);
 
-	Content c4("this is content 4");
-	Content c5("this is content 5");
+	Image_Content ic1;
+	Image_Content ic2("  *  \n *** \n*****", "Apple Iphone 8", 1, "User2");
+	Image_Content ic3(ic2);
 
 
-	Post p1("Custom User1");
-	p1.add_content(c1);
-	p1.add_content(c2);
-	p1.add_content(c3);
+	Post p1("User1");
+	p1.add_content(tc1);
+	p1.add_content(tc2);
+	p1.add_content(tc3);
 	p1.add_like();
 	p1.add_comment("ahahahahah");
+
 
 	Sleep(1000);
 	Post p2(p1);
@@ -29,20 +31,21 @@ void feed_test() {
 	p2.add_like();
 	p2.add_comment("one more comment");
 
-	Sleep(1000);
-	Post p3;
-	p3.add_content(c4);
-	p3.add_like();
-	p3.add_like();
-	p3.add_comment("comment for post 3");
 
 	Sleep(1000);
-	Post p4("Custom User2");
-	p4.add_content(c5);
+	Post p3;
+	p3.add_content(ic1);
+	p3.add_like();
+	p3.add_like();
+	p3.add_comment("nice star!");
+
+	Sleep(1000);
+	Post p4("User2");
+	p4.add_content(ic2);
 
 	Sleep(1000);
 	Post p5(p4);
-	p5.add_comment("comment for post 5");
+	p5.add_comment("wow that's a tree");
 	p5.add_like();
 	p5.add_like();
 	p5.add_like();
@@ -65,6 +68,6 @@ int main() {
 	srand(time(NULL));
 
 	feed_test();
-	
+
 	return 0;
 }
