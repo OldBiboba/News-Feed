@@ -12,6 +12,8 @@ public:
 	String(const String& s);
 	~String();
 
+	String* clone() const;
+
 	int get_length() const;
 	char* get_string() const;
 	

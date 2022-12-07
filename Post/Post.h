@@ -7,22 +7,14 @@ int likes_cmp(const void* a, const void* b);
 int date_cmp(const void* a, const void* b);
 
 class Post {
-private:
-	Array<Content> content_array;
-
-	String author;
-	time_t date;
-
-	int likes_count;
-
-	Array<String> comments;
 
 public:
 	Post();
 	Post(const char* author);
-	Post(Post& another);
-	~Post();
+	Post(const Post& another);
+	virtual ~Post();
 
+	virtual Post* clone() const = 0;
 
 	//Работа с массивом содержимого
 
@@ -34,18 +26,9 @@ public:
 
 
 	//Работа с количеством лайков
-
 	void add_like();
 	void remove_like();
 	int get_likes_count() const;
-
-
-	//Работа с комментариями
-
-	void add_comment(const char* comment);
-	void add_comment(String& comment);
-	int get_comment_count() const;
-	char* get_comment(int idx) const;
 
 
 	//Работа с метаданными
@@ -55,13 +38,76 @@ public:
 	
 
 	//Получить пост в виде строки
-	void get_post(String& buffer) const;
+	virtual void get_post(String& buffer) const;
 
 	void operator = (const Post& another);
 
-	static const char* get_type();
-private:
+	virtual const char* get_type() const;
 
+
+protected:
+	Array<Content> content_array;
+
+	String author;
+	time_t date;
+
+	int likes_count;
+
+	
 
 };
+
+
+
+
+class User_Post : public Post {
+public:
+	User_Post();
+	User_Post(const char* author);
+	User_Post(const User_Post& another);
+	~User_Post() override;
+
+	Post* clone() const override;
+
+	void get_post(String& buffer) const override;
+
+
+	//Работа с комментариями
+
+	void add_comment(const char* comment);
+	void add_comment(const String& comment);
+	int get_comment_count() const;
+	char* get_comment(int idx) const;
+
+
+	const char* get_type() const override;
+
+protected:
+	Array<String> comments;
+
+};
+
 	
+
+class Sponsored_Post : public Post {
+public:
+	Sponsored_Post();
+	Sponsored_Post(const char* author, const char* sponsor_link);
+	Sponsored_Post(const Sponsored_Post& another);
+	~Sponsored_Post() override;
+
+	Post* clone() const override;
+
+	void get_post(String& buffer) const override;
+
+
+	char* get_sponsor_link() const;
+	void set_sponsor_link(const char* sponsor_link);
+	
+
+	const char* get_type() const override;
+
+protected:
+	String sponsor_link;
+
+};

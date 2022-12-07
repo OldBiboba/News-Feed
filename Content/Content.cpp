@@ -9,7 +9,7 @@ Content::Content(const char* new_author) : author{ new_author } {
 }
 
 Content::Content(const Content& c) : author{ c.author } {
-	date = time(NULL);
+	date = c.get_date();
 }
 
 Content::~Content() {}
@@ -24,7 +24,7 @@ time_t Content::get_date() const {
 }
 
 const char* Content::get_type() {
-	return "Empty Content";
+	return "Basic Content";
 }
 
 void Content::operator=(const Content& another) {

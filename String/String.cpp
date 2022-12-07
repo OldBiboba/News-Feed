@@ -21,6 +21,11 @@ String::~String() {
 	delete[] data;
 }
 
+String* String::clone() const{
+	String* result = new String(*this);
+	return result;
+}
+
 int String::get_length() const {
 	return length;
 }

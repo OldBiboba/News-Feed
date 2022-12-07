@@ -5,7 +5,6 @@
 #include "../Content/Content.h"
 #include "../Post/Post.h"
 
-class Post;
 
 template <typename T>
 class Array
@@ -47,7 +46,12 @@ public:
 	}
 	
 
+	void add_element(const T& element) {
+		check_capacity();
+		data[count++] = element.clone();
+	}
 
+#if 0
 	void add_element(const String& element) {
 		check_capacity();
 		data[count] = new String;
@@ -56,15 +60,14 @@ public:
 
 	void add_element(const Post& element) {
 		check_capacity();
-		data[count] = new Post;
-		*(data[count++]) = element;
+		data[count++] = element.clone();
 	}
 
 	void add_element(const Content& element) {
 		check_capacity();
 		data[count++] = element.clone();
 	}
-
+#endif
 
 
 	void remove_element(int idx) {
@@ -108,5 +111,4 @@ private:
 		}
 	}
 };
-
 

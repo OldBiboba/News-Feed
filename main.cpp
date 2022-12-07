@@ -1,3 +1,9 @@
+//#define __CRTDBG_MAP_ALLOC
+//#include <crtdbg.h>
+//#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+//#define new DEBUG_NEW
+
+
 #include <iostream>
 #include <Windows.h>
 #include "Feed/Feed.h"
@@ -15,7 +21,7 @@ void feed_test() {
 	Image_Content ic3(ic2);
 
 
-	Post p1("User1");
+	User_Post p1("User1");
 	p1.add_content(tc1);
 	p1.add_content(tc2);
 	p1.add_content(tc3);
@@ -24,7 +30,7 @@ void feed_test() {
 
 
 	Sleep(1000);
-	Post p2(p1);
+	User_Post p2(p1);
 	p2.add_like();
 	p2.add_like();
 	p2.add_like();
@@ -33,23 +39,28 @@ void feed_test() {
 
 
 	Sleep(1000);
-	Post p3;
+	User_Post p3;
 	p3.add_content(ic1);
 	p3.add_like();
 	p3.add_like();
 	p3.add_comment("nice star!");
 
 	Sleep(1000);
-	Post p4("User2");
+	Sponsored_Post p4("User2", "www.google.com");
 	p4.add_content(ic2);
 
 	Sleep(1000);
-	Post p5(p4);
-	p5.add_comment("wow that's a tree");
+	Sponsored_Post p5(p4);
+	p5.add_content(tc2);
+	p4.set_sponsor_link("www.yandex.ru");
 	p5.add_like();
 	p5.add_like();
 	p5.add_like();
 	p5.add_like();
+
+	Sleep(1000);
+	Sponsored_Post p6;
+	p6.add_content(ic1);
 
 
 	Feed fd;
@@ -58,6 +69,7 @@ void feed_test() {
 	fd.add_post(p3);
 	fd.add_post(p4);
 	fd.add_post(p5);
+	fd.add_post(p6);
 
 	system("cls");
 
@@ -69,5 +81,7 @@ int main() {
 
 	feed_test();
 
+	
+	//_CrtDumpMemoryLeaks();
 	return 0;
 }
