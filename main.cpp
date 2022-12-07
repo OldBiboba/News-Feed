@@ -63,17 +63,17 @@ void feed_test() {
 	p6.add_content(ic1);
 
 
-	Feed fd;
+	Admin_Feed fd;
 	fd.add_post(p1);
 	fd.add_post(p2);
 	fd.add_post(p3);
 	fd.add_post(p4);
 	fd.add_post(p5);
 	fd.add_post(p6);
-
+	
 	system("cls");
 
-	fd.user_intrface();
+	fd.user_interface();
 }
 
 int main() {

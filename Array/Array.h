@@ -17,23 +17,23 @@ private:
 public:
 	Array() {
 		capacity = MIN_CAPACITY;
-		data = new T*[capacity];
+		data = new T* [capacity];
 		count = 0;
 	}
 	Array(int new_capacity) {
 		capacity = max(MIN_CAPACITY, new_capacity);
-		data = new T*[capacity];
+		data = new T* [capacity];
 		count = 0;
 	}
 
-	~Array(){
+	~Array() {
 		for (int i = 0; i < count; i++) {
 			delete data[i];
 		}
 		delete[] data;
 	}
 
-	int get_count() const{
+	int get_count() const {
 		return count;
 	}
 	int get_capacity() const {
@@ -41,33 +41,15 @@ public:
 	}
 
 
-	T& get_element(int idx) const{
+	T& get_element(int idx) const {
 		return *(data[idx]);
 	}
-	
+
 
 	void add_element(const T& element) {
 		check_capacity();
 		data[count++] = element.clone();
 	}
-
-#if 0
-	void add_element(const String& element) {
-		check_capacity();
-		data[count] = new String;
-		*(data[count++]) = element;
-	}
-
-	void add_element(const Post& element) {
-		check_capacity();
-		data[count++] = element.clone();
-	}
-
-	void add_element(const Content& element) {
-		check_capacity();
-		data[count++] = element.clone();
-	}
-#endif
 
 
 	void remove_element(int idx) {
@@ -88,7 +70,7 @@ public:
 private:
 	void expand() {
 		capacity *= 2;
-		T** temp = new T*[capacity];
+		T** temp = new T* [capacity];
 		copy(data, data + count - 1, temp);
 		delete[] data;
 		data = temp;
@@ -96,7 +78,7 @@ private:
 
 	void reduce() {
 		capacity = capacity * 2 / 3;
-		T** temp = new T*[capacity];
+		T** temp = new T* [capacity];
 		copy(data, data + count - 1, temp);
 		delete[] data;
 		data = temp;

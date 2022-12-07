@@ -7,7 +7,6 @@ int likes_cmp(const void* a, const void* b);
 int date_cmp(const void* a, const void* b);
 
 class Post {
-
 public:
 	Post();
 	Post(const char* author);
@@ -82,6 +81,7 @@ public:
 
 	const char* get_type() const override;
 
+
 protected:
 	Array<String> comments;
 
@@ -106,6 +106,7 @@ public:
 	
 
 	const char* get_type() const override;
+
 
 protected:
 	String sponsor_link;

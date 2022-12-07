@@ -5,39 +5,32 @@
 #include "../Array/Array.h"
 
 
-class Feed {
-private:
-	Array<Post> post_array;
-
-
+class Unauthorized_Feed {
 public:
-	Feed();
-	Feed(int post_count);
-	Feed(Feed& another);
-	~Feed();
+	Unauthorized_Feed();
+	Unauthorized_Feed(int post_count);
+	Unauthorized_Feed(Unauthorized_Feed& another);
+	virtual ~Unauthorized_Feed();
 
 	//Начальный интерфейс
-	void user_intrface();
+	virtual void user_interface();
 
 	int get_post_count() const;
 
 	const Post& get_post(int idx) const;
 
 	void add_post(const Post& new_post);
-private:
+
+
+protected:
+	Array<Post> post_array;
 
 
 	//Интерфейс просмотра постов по одному
-	void one_post_interface();
+	virtual void one_post_interface();
 
 	//Вывод поста
 	void print_post(int post_idx);
-
-
-	//Работа с лайками
-
-	void add_like(int idx);
-	void remove_like(int idx);
 
 
 	//Сортировки постов
@@ -45,5 +38,36 @@ private:
 	void sort_by_likes();
 	void sort_by_date();
 
-	static const char* get_type();
+	virtual const char* get_type() const;
+};
+
+class User_Feed :public Unauthorized_Feed {
+public:
+	User_Feed();
+	User_Feed(int post_count);
+	User_Feed(User_Feed& another);
+	~User_Feed() override;
+
+
+protected:
+	void one_post_interface() override;
+
+	const char* get_type() const override;
+
+};
+
+class Admin_Feed : public User_Feed {
+public:
+	Admin_Feed();
+	Admin_Feed(int post_count);
+	Admin_Feed(Admin_Feed& another);
+	~Admin_Feed() override;
+
+
+
+protected:
+	void one_post_interface() override;
+
+	const char* get_type() const override;
+
 };

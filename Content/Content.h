@@ -81,6 +81,8 @@ public:
 	void operator=(const Image_Content& another);
 
 	const char* get_type() override;
+
+
 protected:
 	String picture;
 
