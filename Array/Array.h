@@ -1,9 +1,6 @@
 #pragma once
 #define MIN_CAPACITY 10
 #include <algorithm>
-#include "../String/String.h"
-#include "../Content/Content.h"
-#include "../Post/Post.h"
 
 
 template <typename T>
