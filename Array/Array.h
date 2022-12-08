@@ -4,13 +4,7 @@
 
 
 template <typename T>
-class Array
-{
-private:
-	T** data;
-	int count;
-	int capacity;
-
+class Array{
 public:
 	Array() {
 		capacity = MIN_CAPACITY;
@@ -89,5 +83,12 @@ private:
 			reduce();
 		}
 	}
+
+
+private:
+	T** data;
+	int count;
+	int capacity;
+
 };
 
