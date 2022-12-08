@@ -1,16 +1,13 @@
 #pragma once
 
-class String
-{
-private:
-	char* data;
-	int length;
-
+class String {
 public:
 	String();
 	String(const char* str);
 	String(const String& s);
 	~String();
+
+	String* clone() const;
 
 	int get_length() const;
 	char* get_string() const;
@@ -23,6 +20,9 @@ public:
 	void operator = (const String& str);
 
 private:
+	char* data;
+	int length;
+
 	int str_length(const char* str);
 
 	void copy_str(char* dest, const char* str, int size) const;
