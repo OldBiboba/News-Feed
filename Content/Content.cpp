@@ -1,4 +1,6 @@
 #include "Content.h"
+#include <exception>
+#include <stdexcept>
 
 Content::Content() : author{ "Default User" } {
 	date = time(NULL);
@@ -50,7 +52,10 @@ char* Text_Content::get_data() const{
 }
 
 void Text_Content::set_data(const char* new_data){
-	data.set_str(new_data);
+	try {
+		data.set_str(new_data);
+	}
+	catch (const std::invalid_argument& ex) {}
 }
 
 Text_Content* Text_Content::clone ()const{
@@ -88,12 +93,15 @@ char* Image_Content::get_data() const{
 }
 
 void Image_Content::set_data(const char* new_data){
-	picture.set_str(new_data);
+	try {
+		picture.set_str(new_data);
+	}
+	catch (const std::invalid_argument& ex) {}
 }
 
 Image_Content* Image_Content::clone() const{
-	Image_Content* result = new Image_Content(*this);
-	return result;
+		Image_Content* result = new Image_Content(*this);
+		return result;
 }
 
 const char* Image_Content::get_type(){

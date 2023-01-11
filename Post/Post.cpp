@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <cstdlib>
 #include "Post.h"
+#include <stdexcept>
+#include <exception>
 
 // Basic Post //
 
@@ -74,22 +76,35 @@ time_t Post::get_date() const {
 
 void Post::get_post(String& buffer) const {
 	for (int i = 0; i < content_array.get_count(); i++) {
-		char* temp = content_array.get_element(i).get_data();
-		buffer.add_str(temp);
+		char* temp = nullptr;
+		try {
+			temp = content_array.get_element(i).get_data();
+			buffer.add_str(temp);
+			buffer.add_str("\n");
+		}
+		catch(const exception& ex){}
 		delete[] temp;
-		buffer.add_str("\n");
 	}
+	
+	try {
+		buffer.add_str("-\nAuthor: ");
+		buffer.add_str(author);
+	}
+	catch(const exception& ex){}
 
-	buffer.add_str("-\nAuthor: ");
-	buffer.add_str(author);
+	try {
+		buffer.add_str("\nLikes: ");
+		buffer.add_str(likes_count);
+	}
+	catch (const exception& ex) {}
 
-	buffer.add_str("\nLikes: ");
-	buffer.add_str(likes_count);
-	buffer.add_str("\nDate published: ");
-
-	char time[20];
-	strftime(time, 20, "%T %d %h %y", localtime(&date));
-	buffer.add_str(time);
+	try {
+		buffer.add_str("\nDate published: ");
+		char time[20];
+		strftime(time, 20, "%T %d %h %y", localtime(&date));
+		buffer.add_str(time);
+	}
+	catch (const exception& ex) {}
 }
 
 void Post::operator=(const Post& another) {
@@ -133,8 +148,11 @@ void User_Post::get_post(String& buffer) const {
 	Post::get_post(buffer);
 	buffer.add_str("\n-\nComments:\n");
 	for (int i = 0; i < comments.get_count(); i++) {
-		buffer.add_str(comments.get_element(i));
-		buffer.add_str("\n");
+		try {
+			buffer.add_str(comments.get_element(i));
+			buffer.add_str("\n");
+		}
+		catch (const std::exception& ex) {}
 	}
 }
 
@@ -184,9 +202,12 @@ Post* Sponsored_Post::clone() const{
 
 void Sponsored_Post::get_post(String& buffer) const{
 	Post::get_post(buffer);
-	buffer.add_str("\n-\nSponsor link: ");
-	buffer.add_str(sponsor_link);
-	buffer.add_str("\n");
+	try {
+		buffer.add_str("\n-\nSponsor link: ");
+		buffer.add_str(sponsor_link);
+		buffer.add_str("\n");
+	}
+	catch(const std::exception& ex) {}
 }
 
 char* Sponsored_Post::get_sponsor_link() const{
@@ -194,7 +215,10 @@ char* Sponsored_Post::get_sponsor_link() const{
 }
 
 void Sponsored_Post::set_sponsor_link(const char* new_sponsor_link){
-	sponsor_link.set_str(new_sponsor_link);
+	try {
+		sponsor_link.set_str(new_sponsor_link);
+	}
+	catch (const std::invalid_argument& ex) {}
 }
 
 const char* Sponsored_Post::get_type() const{

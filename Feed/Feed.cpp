@@ -1,3 +1,5 @@
+#include <iostream>
+#include <locale.h>
 #include "Feed.h"
 
 

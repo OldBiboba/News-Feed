@@ -1,8 +1,5 @@
 #pragma once
 #include "../Post/Post.h"
-#include <iostream>
-#include <locale.h>
-#include "../Array/Array.h"
 
 
 class Unauthorized_Feed {

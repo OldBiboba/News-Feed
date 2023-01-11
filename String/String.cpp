@@ -1,4 +1,6 @@
 #include "String.h"
+#include <stdexcept>
+#include <exception>
 
 String::String() {
 	length = 1;
@@ -7,9 +9,14 @@ String::String() {
 }
 
 String::String(const char* str) {
-	length = str_length(str);
-	data = new char[length];
-	copy_str(data, str, length);
+	if (str == nullptr) {
+		*this = String();
+	}
+	else {
+		length = str_length(str);
+		data = new char[length];
+		copy_str(data, str, length);
+	}
 }
 
 String::String(const String& s) {
@@ -38,6 +45,9 @@ char* String::get_string() const{
 
 
 void String::set_str(const char* str) {
+	if (str == nullptr) {
+		throw std::invalid_argument("set_str: \"str\" is nullptr");
+	}
 	delete[] data;
 	length = str_length(str);
 	data = new char[length];
@@ -46,6 +56,9 @@ void String::set_str(const char* str) {
 
 
 void String::add_str(const char* str) {
+	if (str == NULL) {
+		throw std::invalid_argument("add_str: \"str\" is nullptr");
+	}
 	int str_len = str_length(str);
 	char* temp = new char[length - 1 + str_len];
 	copy_str(temp, data, length - 1);

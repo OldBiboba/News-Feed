@@ -1,6 +1,7 @@
 #pragma once
 #define MIN_CAPACITY 10
 #include <algorithm>
+#include <exception>
 
 
 template <typename T>
@@ -38,8 +39,11 @@ public:
 
 
 	void add_element(const T& element) {
-		check_capacity();
-		data[count++] = element.clone();
+		try {
+			check_capacity();
+			data[count++] = element.clone();
+		}
+		catch (const bad_alloc& ex) {}
 	}
 
 
@@ -60,19 +64,23 @@ public:
 
 private:
 	void expand() {
-		capacity *= 2;
-		T** temp = new T* [capacity];
+		int new_capacity = capacity *= 2;
+		T** temp = new T* [new_capacity];
 		copy(data, data + count - 1, temp);
 		delete[] data;
 		data = temp;
+		capacity = new_capacity;
 	}
 
 	void reduce() {
-		capacity = capacity * 2 / 3;
-		T** temp = new T* [capacity];
-		copy(data, data + count - 1, temp);
-		delete[] data;
-		data = temp;
+		int new_capacity = capacity * 2 / 3;
+		T** temp = new(nothrow) T* [new_capacity];
+		if (temp != nullptr) {
+			copy(data, data + count - 1, temp);
+			delete[] data;
+			data = temp;
+			capacity = new_capacity;
+		}
 	}
 
 	void check_capacity() {
