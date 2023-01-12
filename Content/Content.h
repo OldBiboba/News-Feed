@@ -28,7 +28,7 @@ public:
 
 	void operator =(const Content& another);
 
-
+	operator char* ();
 protected:
 	String author;
 	time_t date;
@@ -49,10 +49,12 @@ public:
 
 	Text_Content* clone() const override;
 
-	void operator=(const Text_Content& another);
-
 	const char* get_type() override;
 
+	void operator=(const Text_Content& another);
+
+	void operator+(const Text_Content& another);
+	void operator+(const char* str);
 
 protected:
 	String data;
@@ -78,10 +80,12 @@ public:
 	char* get_device_name() const;
 	int get_color_depth() const;
 
-	void operator=(const Image_Content& another);
-
 	const char* get_type() override;
 
+	void operator=(const Image_Content& another);
+
+	void operator+(const Image_Content& another);
+	void operator+(const char* str);
 
 protected:
 	String picture;

@@ -37,6 +37,9 @@ void Content::operator=(const Content& another) {
 	delete[]tmp;
 }
 
+Content::operator char* (){
+	return get_data();
+}
 
 
 Text_Content::Text_Content() : Content(), data{ "Default content string" } {}
@@ -65,6 +68,14 @@ Text_Content* Text_Content::clone ()const{
 
 void Text_Content::operator=(const Text_Content& another){
 	Content::operator=(another);
+}
+
+void Text_Content::operator+(const Text_Content& another){
+	data.add_str(another.data);
+}
+
+void Text_Content::operator+(const char* str){
+	data.add_str(str);
 }
 
 const char* Text_Content::get_type(){
@@ -120,4 +131,12 @@ void Image_Content::operator=(const Image_Content& another){
 	Content::operator=(another);
 	device_name = another.device_name;
 	color_depth = another.get_color_depth();
+}
+
+void Image_Content::operator+(const Image_Content& another) {
+	picture.add_str(another.picture);
+}
+
+void Image_Content::operator+(const char* str) {
+	picture.add_str(str);
 }
