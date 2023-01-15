@@ -53,8 +53,8 @@ public:
 
 	void operator=(const Text_Content& another);
 
-	void operator+(const Text_Content& another);
-	void operator+(const char* str);
+	const Text_Content operator+(const Text_Content& another);
+	const Text_Content operator+(const char* str);
 
 protected:
 	String data;
@@ -84,8 +84,8 @@ public:
 
 	void operator=(const Image_Content& another);
 
-	void operator+(const Image_Content& another);
-	void operator+(const char* str);
+	Image_Content operator+(const Image_Content& another);
+	Image_Content operator+(const char* str);
 
 protected:
 	String picture;

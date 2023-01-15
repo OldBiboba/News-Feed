@@ -16,7 +16,7 @@ Post::Post(const char* new_author) : author{ new_author } {
 	date = time(NULL);
 }
 
-Post::Post(const Post& another) : 
+Post::Post(const Post& another) :
 	author{ another.author }, content_array{ another.get_content_count() }  {
 	likes_count = another.get_likes_count();
 	date = another.get_date();
@@ -82,15 +82,15 @@ void Post::get_post(String& buffer) const {
 			buffer.add_str(temp);
 			buffer.add_str("\n");
 		}
-		catch(const exception& ex){}
+		catch (const exception& ex) {}
 		delete[] temp;
 	}
-	
+
 	try {
 		buffer.add_str("-\nAuthor: ");
 		buffer.add_str(author);
 	}
-	catch(const exception& ex){}
+	catch (const exception& ex) {}
 
 	try {
 		buffer.add_str("\nLikes: ");
@@ -120,6 +120,26 @@ void Post::operator=(const Post& another) {
 
 const char* Post::get_type() const {
 	return "Basic Post";
+}
+
+
+
+void Post::operator--() {
+	remove_like();
+}
+
+void Post::operator++() {
+	add_like();
+}
+
+Post::operator char* () {
+	String s_post;
+	get_post(s_post);
+	return s_post.get_string();
+}
+
+void Post::operator+=(const Content& content) {
+	add_content(content);
 }
 
 
@@ -181,6 +201,21 @@ const char* User_Post::get_type() const {
 }
 
 
+User_Post User_Post::operator+(const Content& content) {
+	User_Post result(*this);
+	result += content;
+	return result;
+}
+
+User_Post User_Post::operator+(const User_Post& another) {
+	User_Post result(*this);
+	for (int i = 0; i < another.content_array.get_count(); i++) {
+		result += another.get_content_by_idx(i);
+	}
+	return result;
+}
+
+
 
 
 // Sponsored Post //
@@ -190,39 +225,54 @@ Sponsored_Post::Sponsored_Post() :Post(), sponsor_link{ "www.example.com" } {}
 Sponsored_Post::Sponsored_Post(const char* author, const char* new_sponsor_link) :
 	Post(author), sponsor_link{ new_sponsor_link } {}
 
-Sponsored_Post::Sponsored_Post(const Sponsored_Post& another): 
+Sponsored_Post::Sponsored_Post(const Sponsored_Post& another) :
 	Post(another), sponsor_link(another.sponsor_link) {}
 
 Sponsored_Post::~Sponsored_Post() {}
 
-Post* Sponsored_Post::clone() const{
+Post* Sponsored_Post::clone() const {
 	Sponsored_Post* result = new Sponsored_Post(*this);
 	return result;
 }
 
-void Sponsored_Post::get_post(String& buffer) const{
+void Sponsored_Post::get_post(String& buffer) const {
 	Post::get_post(buffer);
 	try {
 		buffer.add_str("\n-\nSponsor link: ");
 		buffer.add_str(sponsor_link);
 		buffer.add_str("\n");
 	}
-	catch(const std::exception& ex) {}
+	catch (const std::exception& ex) {}
 }
 
-char* Sponsored_Post::get_sponsor_link() const{
+char* Sponsored_Post::get_sponsor_link() const {
 	return sponsor_link.get_string();
 }
 
-void Sponsored_Post::set_sponsor_link(const char* new_sponsor_link){
+void Sponsored_Post::set_sponsor_link(const char* new_sponsor_link) {
 	try {
 		sponsor_link.set_str(new_sponsor_link);
 	}
 	catch (const std::invalid_argument& ex) {}
 }
 
-const char* Sponsored_Post::get_type() const{
+const char* Sponsored_Post::get_type() const {
 	return "Sponsored Post";
+}
+
+
+Sponsored_Post Sponsored_Post::operator+(const Content& content) {
+	Sponsored_Post result(*this);
+	result += content;
+	return result;
+}
+
+Sponsored_Post Sponsored_Post::operator+(const Sponsored_Post& another) {
+	Sponsored_Post result(*this);
+	for (int i = 0; i < another.content_array.get_count(); i++) {
+		result += another.get_content_by_idx(i);
+	}
+	return result;
 }
 
 
@@ -256,3 +306,4 @@ int date_cmp(const void* a, const void* b)
 	}
 	return -1;
 }
+

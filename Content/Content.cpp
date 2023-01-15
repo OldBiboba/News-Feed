@@ -70,12 +70,16 @@ void Text_Content::operator=(const Text_Content& another){
 	Content::operator=(another);
 }
 
-void Text_Content::operator+(const Text_Content& another){
-	data.add_str(another.data);
+const Text_Content Text_Content::operator+(const Text_Content& another){
+	Text_Content result(*this);
+	result.data.add_str(another.data);
+	return result;
 }
 
-void Text_Content::operator+(const char* str){
-	data.add_str(str);
+const Text_Content Text_Content::operator+(const char* str){
+	Text_Content result(*this);
+	result.data.add_str(str);
+	return result;
 }
 
 const char* Text_Content::get_type(){
@@ -133,10 +137,14 @@ void Image_Content::operator=(const Image_Content& another){
 	color_depth = another.get_color_depth();
 }
 
-void Image_Content::operator+(const Image_Content& another) {
-	picture.add_str(another.picture);
+Image_Content Image_Content::operator+(const Image_Content& another) {
+	Image_Content result(*this);
+	result.picture.add_str(another.picture);
+	return result;
 }
 
-void Image_Content::operator+(const char* str) {
-	picture.add_str(str);
+Image_Content Image_Content::operator+(const char* str) {
+	Image_Content result(*this);
+	result.picture.add_str(str);
+	return result;
 }
