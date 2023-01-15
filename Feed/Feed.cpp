@@ -66,6 +66,21 @@ void Unauthorized_Feed::add_post(const Post& new_post) {
 	post_array.add_element(new_post);
 }
 
+void Unauthorized_Feed::operator+=(const Post& post){
+	add_post(post);
+}
+
+Unauthorized_Feed::operator int() const{
+	return post_array.get_count();
+}
+
+const Post& Unauthorized_Feed::operator[](int index) const{
+	if (index >=0 && index < (int)*this) {
+		return get_post(index);
+	}
+	throw out_of_range("Feed: attempt to access an element with a non-existent index");
+}
+
 
 void Unauthorized_Feed::one_post_interface() {
 	int current_post_idx = 0;

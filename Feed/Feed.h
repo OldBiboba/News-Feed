@@ -18,6 +18,12 @@ public:
 
 	void add_post(const Post& new_post);
 
+	void operator+=(const Post& post);
+
+	operator int() const;
+
+	const Post& operator[](int index) const;
+
 
 protected:
 	Array<Post> post_array;
