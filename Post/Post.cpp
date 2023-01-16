@@ -78,7 +78,7 @@ void Post::get_post(String& buffer) const {
 	for (int i = 0; i < content_array.get_count(); i++) {
 		char* temp = nullptr;
 		try {
-			temp = content_array.get_element(i).get_data();
+			temp = (char*)content_array.get_element(i);
 			buffer.add_str(temp);
 			buffer.add_str("\n");
 		}
@@ -124,11 +124,11 @@ const char* Post::get_type() const {
 
 
 
-void Post::operator--() {
+void Post::operator--(int) {
 	remove_like();
 }
 
-void Post::operator++() {
+void Post::operator++(int) {
 	add_like();
 }
 

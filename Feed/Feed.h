@@ -14,7 +14,7 @@ public:
 
 	int get_post_count() const;
 
-	const Post& get_post(int idx) const;
+	Post& get_post(int idx) const;
 
 	void add_post(const Post& new_post);
 
@@ -22,7 +22,7 @@ public:
 
 	operator int() const;
 
-	const Post& operator[](int index) const;
+	Post& operator[](int index) const;
 
 
 protected:

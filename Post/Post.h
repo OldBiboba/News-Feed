@@ -45,8 +45,8 @@ public:
 
 	void operator+=(const Content& content);
 
-	void operator--();
-	void operator++();
+	void operator--(int);
+	void operator++(int);
 
 	operator char* ();
 

@@ -9,10 +9,11 @@ void feed_test() {
 	Text_Content tc1;
 	Text_Content tc2("test content string", "User1");
 	Text_Content tc3(tc2);
+	tc1 = tc1 + "\nNew added string";
 
 	Image_Content ic1;
 	Image_Content ic2("  *  \n *** \n*****", "Apple Iphone 8", 1, "User2");
-	Image_Content ic3(ic2);
+	Image_Content ic3(ic1 + "\n" + ic2);
 
 
 	User_Post p1("User1");
@@ -44,8 +45,7 @@ void feed_test() {
 	p4.add_content(ic2);
 
 	Sleep(1000);
-	Sponsored_Post p5(p4);
-	p5.add_content(tc2);
+	Sponsored_Post p5(p4 + tc2);
 	p4.set_sponsor_link("www.yandex.ru");
 	p5.add_like();
 	p5.add_like();
@@ -54,16 +54,18 @@ void feed_test() {
 
 	Sleep(1000);
 	Sponsored_Post p6;
-	p6.add_content(ic1);
+	p6.add_content(ic3);
 
+	User_Post p7(p1 + p3);
 
 	Admin_Feed fd;
-	fd.add_post(p1);
-	fd.add_post(p2);
-	fd.add_post(p3);
-	fd.add_post(p4);
-	fd.add_post(p5);
-	fd.add_post(p6);
+	fd += p1;
+	fd += p2;
+	fd += p3;
+	fd += p4;
+	fd += p5;
+	fd += p6;
+	fd += p7;
 	
 	system("cls");
 
