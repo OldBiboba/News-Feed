@@ -1,8 +1,5 @@
 #pragma once
 #include "../Post/Post.h"
-#include <iostream>
-#include <locale.h>
-#include "../Array/Array.h"
 
 
 class Unauthorized_Feed {
@@ -17,9 +14,15 @@ public:
 
 	int get_post_count() const;
 
-	const Post& get_post(int idx) const;
+	Post& get_post(int idx) const;
 
 	void add_post(const Post& new_post);
+
+	void operator+=(const Post& post);
+
+	operator int() const;
+
+	Post& operator[](int index) const;
 
 
 protected:

@@ -1,6 +1,8 @@
 #define _CRT_SECURE_NO_WARNINGS
 #include <cstdlib>
 #include "Post.h"
+#include <stdexcept>
+#include <exception>
 
 // Basic Post //
 
@@ -14,7 +16,7 @@ Post::Post(const char* new_author) : author{ new_author } {
 	date = time(NULL);
 }
 
-Post::Post(const Post& another) : 
+Post::Post(const Post& another) :
 	author{ another.author }, content_array{ another.get_content_count() }  {
 	likes_count = another.get_likes_count();
 	date = another.get_date();
@@ -74,22 +76,35 @@ time_t Post::get_date() const {
 
 void Post::get_post(String& buffer) const {
 	for (int i = 0; i < content_array.get_count(); i++) {
-		char* temp = content_array.get_element(i).get_data();
-		buffer.add_str(temp);
+		char* temp = nullptr;
+		try {
+			temp = (char*)content_array.get_element(i);
+			buffer.add_str(temp);
+			buffer.add_str("\n");
+		}
+		catch (const exception& ex) {}
 		delete[] temp;
-		buffer.add_str("\n");
 	}
 
-	buffer.add_str("-\nAuthor: ");
-	buffer.add_str(author);
+	try {
+		buffer.add_str("-\nAuthor: ");
+		buffer.add_str(author);
+	}
+	catch (const exception& ex) {}
 
-	buffer.add_str("\nLikes: ");
-	buffer.add_str(likes_count);
-	buffer.add_str("\nDate published: ");
+	try {
+		buffer.add_str("\nLikes: ");
+		buffer.add_str(likes_count);
+	}
+	catch (const exception& ex) {}
 
-	char time[20];
-	strftime(time, 20, "%T %d %h %y", localtime(&date));
-	buffer.add_str(time);
+	try {
+		buffer.add_str("\nDate published: ");
+		char time[20];
+		strftime(time, 20, "%T %d %h %y", localtime(&date));
+		buffer.add_str(time);
+	}
+	catch (const exception& ex) {}
 }
 
 void Post::operator=(const Post& another) {
@@ -105,6 +120,26 @@ void Post::operator=(const Post& another) {
 
 const char* Post::get_type() const {
 	return "Basic Post";
+}
+
+
+
+void Post::operator--(int) {
+	remove_like();
+}
+
+void Post::operator++(int) {
+	add_like();
+}
+
+Post::operator char* () {
+	String s_post;
+	get_post(s_post);
+	return s_post.get_string();
+}
+
+void Post::operator+=(const Content& content) {
+	add_content(content);
 }
 
 
@@ -133,8 +168,11 @@ void User_Post::get_post(String& buffer) const {
 	Post::get_post(buffer);
 	buffer.add_str("\n-\nComments:\n");
 	for (int i = 0; i < comments.get_count(); i++) {
-		buffer.add_str(comments.get_element(i));
-		buffer.add_str("\n");
+		try {
+			buffer.add_str(comments.get_element(i));
+			buffer.add_str("\n");
+		}
+		catch (const std::exception& ex) {}
 	}
 }
 
@@ -163,6 +201,21 @@ const char* User_Post::get_type() const {
 }
 
 
+User_Post User_Post::operator+(const Content& content) {
+	User_Post result(*this);
+	result += content;
+	return result;
+}
+
+User_Post User_Post::operator+(const User_Post& another) {
+	User_Post result(*this);
+	for (int i = 0; i < another.content_array.get_count(); i++) {
+		result += another.get_content_by_idx(i);
+	}
+	return result;
+}
+
+
 
 
 // Sponsored Post //
@@ -172,33 +225,54 @@ Sponsored_Post::Sponsored_Post() :Post(), sponsor_link{ "www.example.com" } {}
 Sponsored_Post::Sponsored_Post(const char* author, const char* new_sponsor_link) :
 	Post(author), sponsor_link{ new_sponsor_link } {}
 
-Sponsored_Post::Sponsored_Post(const Sponsored_Post& another): 
+Sponsored_Post::Sponsored_Post(const Sponsored_Post& another) :
 	Post(another), sponsor_link(another.sponsor_link) {}
 
 Sponsored_Post::~Sponsored_Post() {}
 
-Post* Sponsored_Post::clone() const{
+Post* Sponsored_Post::clone() const {
 	Sponsored_Post* result = new Sponsored_Post(*this);
 	return result;
 }
 
-void Sponsored_Post::get_post(String& buffer) const{
+void Sponsored_Post::get_post(String& buffer) const {
 	Post::get_post(buffer);
-	buffer.add_str("\n-\nSponsor link: ");
-	buffer.add_str(sponsor_link);
-	buffer.add_str("\n");
+	try {
+		buffer.add_str("\n-\nSponsor link: ");
+		buffer.add_str(sponsor_link);
+		buffer.add_str("\n");
+	}
+	catch (const std::exception& ex) {}
 }
 
-char* Sponsored_Post::get_sponsor_link() const{
+char* Sponsored_Post::get_sponsor_link() const {
 	return sponsor_link.get_string();
 }
 
-void Sponsored_Post::set_sponsor_link(const char* new_sponsor_link){
-	sponsor_link.set_str(new_sponsor_link);
+void Sponsored_Post::set_sponsor_link(const char* new_sponsor_link) {
+	try {
+		sponsor_link.set_str(new_sponsor_link);
+	}
+	catch (const std::invalid_argument& ex) {}
 }
 
-const char* Sponsored_Post::get_type() const{
+const char* Sponsored_Post::get_type() const {
 	return "Sponsored Post";
+}
+
+
+Sponsored_Post Sponsored_Post::operator+(const Content& content) {
+	Sponsored_Post result(*this);
+	result += content;
+	return result;
+}
+
+Sponsored_Post Sponsored_Post::operator+(const Sponsored_Post& another) {
+	Sponsored_Post result(*this);
+	for (int i = 0; i < another.content_array.get_count(); i++) {
+		result += another.get_content_by_idx(i);
+	}
+	return result;
 }
 
 
@@ -232,3 +306,4 @@ int date_cmp(const void* a, const void* b)
 	}
 	return -1;
 }
+

@@ -34,7 +34,7 @@ public:
 
 	char* get_author() const;
 	time_t get_date() const;
-	
+
 
 	//Получить пост в виде строки
 	virtual void get_post(String& buffer) const;
@@ -42,6 +42,13 @@ public:
 	void operator = (const Post& another);
 
 	virtual const char* get_type() const;
+
+	void operator+=(const Content& content);
+
+	void operator--(int);
+	void operator++(int);
+
+	operator char* ();
 
 
 protected:
@@ -51,8 +58,6 @@ protected:
 	time_t date;
 
 	int likes_count;
-
-	
 
 };
 
@@ -81,13 +86,15 @@ public:
 
 	const char* get_type() const override;
 
+	User_Post operator+(const Content& content);
+	User_Post operator+(const User_Post& another);
 
 protected:
 	Array<String> comments;
 
 };
 
-	
+
 
 class Sponsored_Post : public Post {
 public:
@@ -103,10 +110,12 @@ public:
 
 	char* get_sponsor_link() const;
 	void set_sponsor_link(const char* sponsor_link);
-	
+
 
 	const char* get_type() const override;
 
+	Sponsored_Post operator+(const Content& content);
+	Sponsored_Post operator+(const Sponsored_Post& another);
 
 protected:
 	String sponsor_link;

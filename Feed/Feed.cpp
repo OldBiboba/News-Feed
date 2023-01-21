@@ -1,3 +1,5 @@
+#include <iostream>
+#include <locale.h>
 #include "Feed.h"
 
 
@@ -56,12 +58,27 @@ int Unauthorized_Feed::get_post_count() const {
 	return post_array.get_count();
 }
 
-const Post& Unauthorized_Feed::get_post(int idx) const {
+Post& Unauthorized_Feed::get_post(int idx) const {
 	return post_array.get_element(idx);
 }
 
 void Unauthorized_Feed::add_post(const Post& new_post) {
 	post_array.add_element(new_post);
+}
+
+void Unauthorized_Feed::operator+=(const Post& post){
+	add_post(post);
+}
+
+Unauthorized_Feed::operator int() const{
+	return post_array.get_count();
+}
+
+Post& Unauthorized_Feed::operator[](int index) const{
+	if (index >=0 && index < (int)*this) {
+		return get_post(index);
+	}
+	throw out_of_range("Feed: attempt to access an element with a non-existent index");
 }
 
 
@@ -101,9 +118,7 @@ void Unauthorized_Feed::one_post_interface() {
 }
 
 void Unauthorized_Feed::print_post(int post_idx) {
-	String post;
-	post_array.get_element(post_idx).get_post(post);
-	char* c_post = post.get_string();
+	char* c_post = (char*)post_array.get_element(post_idx);
 	cout << "________________________" << endl << c_post << "________________________" << endl << endl;
 	delete[] c_post;
 }
@@ -170,10 +185,11 @@ void User_Feed::one_post_interface() {
 			}
 		}
 		else if (input == 3) {
-			post_array.get_element(current_post_idx).add_like();
+			(*this)[current_post_idx]++;
+
 		}
 		else if (input == 4) {
-			post_array.get_element(current_post_idx).remove_like();
+			(*this)[current_post_idx]--;
 		}
 	}
 }
@@ -231,10 +247,10 @@ void Admin_Feed::one_post_interface() {
 			}
 		}
 		else if (input == 3) {
-			post_array.get_element(current_post_idx).add_like();
+			(*this)[current_post_idx]++;
 		}
 		else if (input == 4) {
-			post_array.get_element(current_post_idx).remove_like();
+			(*this)[current_post_idx]--;
 		}
 		else if (input == 5) {
 			post_array.remove_element(current_post_idx);
