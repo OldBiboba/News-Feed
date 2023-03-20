@@ -69,7 +69,8 @@ void feed_test() {
 	
 	system("cls");
 
-	fd.user_interface();
+	cout << p2;
+	//fd.user_interface();
 }
 
 int main() {

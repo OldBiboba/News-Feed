@@ -2,6 +2,9 @@
 #include <stdexcept>
 #include <exception>
 
+using namespace std;
+
+
 String::String() {
 	length = 1;
 	data = new char[length];
@@ -28,7 +31,7 @@ String::~String() {
 	delete[] data;
 }
 
-String* String::clone() const{
+String* String::clone() const {
 	String* result = new String(*this);
 	return result;
 }
@@ -37,7 +40,7 @@ int String::get_length() const {
 	return length;
 }
 
-char* String::get_string() const{
+char* String::get_string() const {
 	char* result = new char[length];
 	copy_str(result, (const char*)data, length);
 	return result;
@@ -115,8 +118,13 @@ int String::str_length(const char* str) {
 	}
 }
 
-void String::copy_str(char* dest, const char* str, int size) const{
+void String::copy_str(char* dest, const char* str, int size) const {
 	for (int i = 0; i < size; i++) {
 		dest[i] = str[i];
 	}
+}
+
+ostream& operator<<(ostream& out, const String& s) {
+	out << s.data;
+	return out;
 }

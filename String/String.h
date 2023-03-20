@@ -1,5 +1,8 @@
 #pragma once
 
+#include <ostream>
+
+using namespace std;
 
 class String {
 public:
@@ -20,6 +23,8 @@ public:
 
 	void operator = (const String& str);
 
+	friend ostream& operator << (ostream& out, const String& s);
+
 private:
 	char* data;
 	int length;
@@ -28,5 +33,3 @@ private:
 
 	void copy_str(char* dest, const char* str, int size) const;
 };
-
-

@@ -29,6 +29,8 @@ public:
 	void operator =(const Content& another);
 
 	operator char* ();
+
+	friend ostream& operator<< (ostream& out, const Content& c);
 protected:
 	String author;
 	time_t date;
@@ -56,11 +58,10 @@ public:
 	const Text_Content operator+(const Text_Content& another);
 	const Text_Content operator+(const char* str);
 
+	friend ostream& operator<<(ostream& out, const Text_Content& c);
 protected:
 	String data;
 };
-
-
 
 
 
@@ -86,6 +87,8 @@ public:
 
 	Image_Content operator+(const Image_Content& another);
 	Image_Content operator+(const char* str);
+
+	friend ostream& operator<<(ostream& out, const Image_Content& c);
 
 protected:
 	String picture;

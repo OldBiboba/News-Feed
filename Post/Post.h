@@ -89,6 +89,8 @@ public:
 	User_Post operator+(const Content& content);
 	User_Post operator+(const User_Post& another);
 
+	friend ostream& operator<<(ostream& out, const User_Post& c);
+
 protected:
 	Array<String> comments;
 
@@ -116,6 +118,8 @@ public:
 
 	Sponsored_Post operator+(const Content& content);
 	Sponsored_Post operator+(const Sponsored_Post& another);
+
+	friend ostream& operator<<(ostream& out, const Sponsored_Post& c);
 
 protected:
 	String sponsor_link;

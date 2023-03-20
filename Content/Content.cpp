@@ -86,6 +86,16 @@ const char* Text_Content::get_type(){
 	return "Text Content";
 }
 
+ostream& operator<<(ostream& out, const Content& c){
+	return out;
+}
+
+ostream& operator<<(ostream& out, const Text_Content& c){
+	out << "Text_Content(\n\"" << c.data << "\",\n" << c.author << ", " << c.date << ")";
+	return out;
+}
+
+
 
 
 Image_Content::Image_Content():Content(),picture{"  *  \n*****\n * * "},device_name{"Unknown device"}{
@@ -147,4 +157,10 @@ Image_Content Image_Content::operator+(const char* str) {
 	Image_Content result(*this);
 	result.picture.add_str(str);
 	return result;
+}
+
+ostream& operator<<(ostream& out, const Image_Content& c) {
+	out << "Image_Content(\"\n" << c.picture << "\",\n" << c.author << ", " << c.date << ", "
+		<< c.device_name << ", " << c.color_depth << ")";
+	return out;
 }
