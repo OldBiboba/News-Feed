@@ -82,17 +82,17 @@ const Text_Content Text_Content::operator+(const char* str){
 	return result;
 }
 
+ostream& Text_Content::print(ostream& out) const{
+	out << "Text_Content(\n\"" << data << "\",\n" << author << ", " << date << ")";
+	return out;
+}
+
 const char* Text_Content::get_type(){
 	return "Text Content";
 }
 
 ostream& operator<<(ostream& out, const Content& c){
-	return out;
-}
-
-ostream& operator<<(ostream& out, const Text_Content& c){
-	out << "Text_Content(\n\"" << c.data << "\",\n" << c.author << ", " << c.date << ")";
-	return out;
+	return c.print(out);
 }
 
 
@@ -159,8 +159,8 @@ Image_Content Image_Content::operator+(const char* str) {
 	return result;
 }
 
-ostream& operator<<(ostream& out, const Image_Content& c) {
-	out << "Image_Content(\"\n" << c.picture << "\",\n" << c.author << ", " << c.date << ", "
-		<< c.device_name << ", " << c.color_depth << ")";
+ostream& Image_Content::print(ostream& out) const{
+	out << "Image_Content(\"\n" << picture << "\",\n" << author << ", " << date << ", "
+		<< device_name << ", " << color_depth << ")";
 	return out;
 }

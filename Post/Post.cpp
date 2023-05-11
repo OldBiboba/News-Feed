@@ -216,9 +216,9 @@ User_Post User_Post::operator+(const User_Post& another) {
 }
 
 ostream& operator<<(ostream& out, const User_Post& c){
-	out << "User_Post{";
+	out << "User_Post{" << endl << endl;
 	for (int i = 0; i < c.content_array.get_count(); i++) {
-		out << c.get_content_by_idx(i) << ",\n";
+		out << c.get_content_by_idx(i) << ",\n\n";
 	}
 	out << c.author << ", " << c.date << ", " << c.likes_count << ",\n";
 	for (int i = 0; i < c.comments.get_count(); i++) {
@@ -318,9 +318,13 @@ int date_cmp(const void* a, const void* b)
 	return -1;
 }
 
-ostream& operator<<(ostream& out, const Sponsored_Post& c)
-{
-	// TODO: вставьте здесь оператор return
+ostream& operator<<(ostream& out, const Sponsored_Post& c){
+	out << "Sponsored_Post{" << endl << endl;
+	for (int i = 0; i < c.content_array.get_count(); i++) {
+		out << c.get_content_by_idx(i) << ",\n\n";
+	}
+	out << c.author << ", " << c.date << ", " << c.likes_count << ", " << c.sponsor_link << "\n";
+	out << "}";
 	return out;
 }
 

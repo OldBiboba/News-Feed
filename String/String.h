@@ -1,6 +1,7 @@
 #pragma once
 
 #include <ostream>
+#include <istream>
 
 using namespace std;
 
@@ -24,6 +25,7 @@ public:
 	void operator = (const String& str);
 
 	friend ostream& operator << (ostream& out, const String& s);
+	friend istream& operator >> (istream& in, String& s);
 
 private:
 	char* data;

@@ -128,3 +128,16 @@ ostream& operator<<(ostream& out, const String& s) {
 	out << s.data;
 	return out;
 }
+
+//TODO доделать
+istream& operator>>(istream& in, String& s){
+	char buffer[256];
+	
+
+	do {
+		in.getline(buffer, 256, '\n');
+		s.add_str(buffer);
+	} 	while (strlen(buffer) == 255);
+
+	return in;
+}

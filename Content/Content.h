@@ -30,6 +30,8 @@ public:
 
 	operator char* ();
 
+	virtual ostream& print(ostream& out) const = 0;
+
 	friend ostream& operator<< (ostream& out, const Content& c);
 protected:
 	String author;
@@ -58,7 +60,7 @@ public:
 	const Text_Content operator+(const Text_Content& another);
 	const Text_Content operator+(const char* str);
 
-	friend ostream& operator<<(ostream& out, const Text_Content& c);
+	ostream& print(ostream& out) const override;
 protected:
 	String data;
 };
@@ -88,7 +90,7 @@ public:
 	Image_Content operator+(const Image_Content& another);
 	Image_Content operator+(const char* str);
 
-	friend ostream& operator<<(ostream& out, const Image_Content& c);
+	ostream& print(ostream& out) const override;
 
 protected:
 	String picture;
