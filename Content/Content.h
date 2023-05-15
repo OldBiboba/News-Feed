@@ -30,9 +30,15 @@ public:
 
 	operator char* ();
 
-	virtual ostream& print(ostream& out) const = 0;
+	virtual ostream& get(ostream& out) const = 0;
+	virtual istream& set(istream& in);
 
 	friend ostream& operator<< (ostream& out, const Content& c);
+	friend istream& operator>> (istream& in, Content& c);
+
+	virtual void save(ofstream& fout);
+	friend Content* load_Content(ifstream& fin);
+
 protected:
 	String author;
 	time_t date;
@@ -60,7 +66,12 @@ public:
 	const Text_Content operator+(const Text_Content& another);
 	const Text_Content operator+(const char* str);
 
-	ostream& print(ostream& out) const override;
+	ostream& get(ostream& out) const override;
+	istream& set(istream& in) override;
+
+	void save(ofstream& fout) override;
+	friend Content* load_Content(ifstream& fin);
+
 protected:
 	String data;
 };
@@ -90,7 +101,11 @@ public:
 	Image_Content operator+(const Image_Content& another);
 	Image_Content operator+(const char* str);
 
-	ostream& print(ostream& out) const override;
+	ostream& get(ostream& out) const override;
+	istream& set(istream& in) override;
+
+	void save(ofstream& fout) override;
+	friend Content* load_Content(ifstream& fin);
 
 protected:
 	String picture;
@@ -98,3 +113,8 @@ protected:
 	String device_name;
 	int color_depth;
 };
+
+
+
+
+Content* load_Content(ifstream& fin);

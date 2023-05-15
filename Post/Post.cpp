@@ -138,6 +138,30 @@ Post::operator char* () {
 	return s_post.get_string();
 }
 
+istream& Post::set(istream& in){
+	in >> author;
+	in >> date;
+	in >> likes_count;
+	return in;
+}
+
+void Post::save(ofstream& fout){
+	if (!fout.is_open()) {
+		return;
+	}
+	
+	int content_count = content_array.get_count();
+	fout.write((char*)&content_count, sizeof(int));
+
+	for (int i = 0; i < content_count; i++) {
+		content_array.get_element(i).save(fout);
+	}
+
+	author.save(fout);
+	fout.write((char*)&date, sizeof(time_t));
+	fout.write((char*)&likes_count, sizeof(int));
+}
+
 void Post::operator+=(const Content& content) {
 	add_content(content);
 }
@@ -215,6 +239,29 @@ User_Post User_Post::operator+(const User_Post& another) {
 	return result;
 }
 
+void User_Post::save(ofstream& fout){
+	if (!fout.is_open()) {
+		return;
+	}
+	
+	char type = 1;
+	fout.write(&type, sizeof(char));
+
+	int comments_count = comments.get_count();
+	fout.write((char*)&comments_count, sizeof(int));
+
+	for (int i = 0; i < comments_count; i++) {
+		comments.get_element(i).save(fout);
+	}
+
+	Post::save(fout);
+}
+
+istream& operator>>(istream& in, Post& c){
+	return c.set(in);
+}
+
+
 ostream& operator<<(ostream& out, const User_Post& c){
 	out << "User_Post{" << endl << endl;
 	for (int i = 0; i < c.content_array.get_count(); i++) {
@@ -286,6 +333,25 @@ Sponsored_Post Sponsored_Post::operator+(const Sponsored_Post& another) {
 	return result;
 }
 
+istream& Sponsored_Post::set(istream& in){
+	Post::set(in);
+	in >> sponsor_link;
+	return in;
+}
+
+void Sponsored_Post::save(ofstream& fout){
+	if (!fout.is_open()) {
+		return;
+	}
+
+	char type = 2;
+	fout.write(&type, sizeof(char));
+
+	sponsor_link.save(fout);
+	
+	Post::save(fout);
+}
+
 
 
 
@@ -328,3 +394,59 @@ ostream& operator<<(ostream& out, const Sponsored_Post& c){
 	return out;
 }
 
+
+
+
+Post* load_Post(ifstream& fin){
+	if (!fin.is_open()) {
+		return nullptr;
+	}
+
+	char type;
+	fin.read(&type, sizeof(char));
+
+	Post* result = nullptr;
+
+	if (type == 1) {
+		User_Post* tmp = new User_Post;
+
+		int comments_count;
+		fin.read((char*)&comments_count, sizeof(int));
+
+		for (int i = 0; i < comments_count; i++) {
+			String comment;
+			comment.load(fin);
+			tmp->add_comment(comment);
+		}
+
+		result = tmp;
+	}
+	else if (type == 2) {
+		Sponsored_Post* tmp = new Sponsored_Post;
+
+		tmp->sponsor_link.load(fin);
+
+		result = tmp;
+	}
+	
+	if (result == nullptr) {
+		return nullptr;
+	}
+
+	int content_count;
+	fin.read((char*)&content_count, sizeof(int));
+
+	for (int i = 0; i < content_count; i++) {
+		Content* content = load_Content(fin);
+		if (content != nullptr) {
+			result->add_content(*content);
+			delete content;
+		}
+	}
+
+	result->author.load(fin);
+	fin.read((char*)&(result->date), sizeof(time_t));
+	fin.read((char*)&(result->likes_count), sizeof(int));
+
+	return result;
+}

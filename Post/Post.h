@@ -50,6 +50,12 @@ public:
 
 	operator char* ();
 
+	virtual istream& set(istream& in);
+
+	friend istream& operator>>(istream& in, Post& c);
+
+	virtual void save(ofstream& fout);
+	friend Post* load_Post(ifstream& fin);
 
 protected:
 	Array<Content> content_array;
@@ -91,6 +97,9 @@ public:
 
 	friend ostream& operator<<(ostream& out, const User_Post& c);
 
+	void save(ofstream& fout) override;
+	friend Post* load_Post(ifstream& fin);
+
 protected:
 	Array<String> comments;
 
@@ -119,9 +128,18 @@ public:
 	Sponsored_Post operator+(const Content& content);
 	Sponsored_Post operator+(const Sponsored_Post& another);
 
+	istream& set(istream& in) override;
+
 	friend ostream& operator<<(ostream& out, const Sponsored_Post& c);
+
+	void save(ofstream& fout) override;
+	friend Post* load_Post(ifstream& fin);
 
 protected:
 	String sponsor_link;
 
 };
+
+
+
+Post* load_Post(ifstream& fin);

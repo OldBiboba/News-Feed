@@ -111,6 +111,25 @@ void String::operator=(const String& str) {
 	data = str.get_string();
 }
 
+void String::save(ofstream& fout) {
+	if (!fout.is_open()) {
+		return;
+	}
+	fout.write((char*)&length, sizeof(int));
+	fout.write(data, length);
+}
+
+void String::load(ifstream& fin) {
+	if (!fin.is_open()) {
+		return;
+	}
+
+	fin.read((char*)&length, sizeof(int));
+	delete[] data;
+	data = new char[length];
+	fin.read(data, length);
+}
+
 int String::str_length(const char* str) {
 	for (int i = 0;; i++) {
 		if (str[i] == '\0')
@@ -129,15 +148,17 @@ ostream& operator<<(ostream& out, const String& s) {
 	return out;
 }
 
-//TODO доделать
-istream& operator>>(istream& in, String& s){
-	char buffer[256];
-	
 
+istream& operator>>(istream& in, String& s) {
+	const int buff_size = 256;
+	char buffer[buff_size];
+	s.set_str("");
+	if (in.peek() == '\n') {
+		in.ignore();
+	}
 	do {
-		in.getline(buffer, 256, '\n');
+		in.get(buffer, buff_size);
 		s.add_str(buffer);
-	} 	while (strlen(buffer) == 255);
-
+	} while (strlen(buffer) == buff_size - 1);
 	return in;
 }

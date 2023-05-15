@@ -2,6 +2,7 @@
 
 #include <ostream>
 #include <istream>
+#include <fstream>
 
 using namespace std;
 
@@ -24,8 +25,11 @@ public:
 
 	void operator = (const String& str);
 
-	friend ostream& operator << (ostream& out, const String& s);
-	friend istream& operator >> (istream& in, String& s);
+	void save(ofstream& fout);
+	void load(ifstream& fin);
+
+	friend ostream& operator<< (ostream& out, const String& s);
+	friend istream& operator>> (istream& in, String& s);
 
 private:
 	char* data;

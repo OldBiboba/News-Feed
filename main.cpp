@@ -58,7 +58,7 @@ void feed_test() {
 
 	User_Post p7(p1 + p3);
 
-	Admin_Feed fd;
+	User_Feed fd;
 	fd += p1;
 	fd += p2;
 	fd += p3;
@@ -69,8 +69,24 @@ void feed_test() {
 	
 	system("cls");
 
-	cout << p5;
-	//fd.user_interface();
+	fd.user_interface();
+
+
+
+	/*
+	///////////////// test ///////////////////
+
+	ofstream fout("feed.txt", ios::binary || ios::out);
+	fd.save(fout);
+	fout.close();
+	fd.user_interface();
+
+	Admin_Feed test;
+	ifstream fin("feed.txt", ios::binary || ios::in);
+	test.load(fin);
+	fin.close();
+	test.user_interface();
+	*/
 }
 
 int main() {
