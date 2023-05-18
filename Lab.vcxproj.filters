@@ -15,36 +15,36 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
+    <ClCompile Include="String\String.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Content\Content.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="String\String.cpp">
+    <ClCompile Include="Feed\Feed.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Post\Post.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Feed\Feed.cpp">
+    <ClCompile Include="main.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Content\Content.h">
+    <ClInclude Include="String\String.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Array\Array.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="String\String.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Post\Post.h">
+    <ClInclude Include="Content\Content.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Feed\Feed.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Post\Post.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

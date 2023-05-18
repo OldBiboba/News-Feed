@@ -2,6 +2,9 @@
 #include <stdexcept>
 #include <exception>
 
+using namespace std;
+
+
 String::String() {
 	length = 1;
 	data = new char[length];
@@ -28,7 +31,7 @@ String::~String() {
 	delete[] data;
 }
 
-String* String::clone() const{
+String* String::clone() const {
 	String* result = new String(*this);
 	return result;
 }
@@ -37,7 +40,7 @@ int String::get_length() const {
 	return length;
 }
 
-char* String::get_string() const{
+char* String::get_string() const {
 	char* result = new char[length];
 	copy_str(result, (const char*)data, length);
 	return result;
@@ -108,6 +111,25 @@ void String::operator=(const String& str) {
 	data = str.get_string();
 }
 
+void String::save(ofstream& fout) {
+	if (!fout.is_open()) {
+		return;
+	}
+	fout.write((char*)&length, sizeof(int));
+	fout.write(data, length);
+}
+
+void String::load(ifstream& fin) {
+	if (!fin.is_open()) {
+		return;
+	}
+
+	fin.read((char*)&length, sizeof(int));
+	delete[] data;
+	data = new char[length];
+	fin.read(data, length);
+}
+
 int String::str_length(const char* str) {
 	for (int i = 0;; i++) {
 		if (str[i] == '\0')
@@ -115,8 +137,28 @@ int String::str_length(const char* str) {
 	}
 }
 
-void String::copy_str(char* dest, const char* str, int size) const{
+void String::copy_str(char* dest, const char* str, int size) const {
 	for (int i = 0; i < size; i++) {
 		dest[i] = str[i];
 	}
+}
+
+ostream& operator<<(ostream& out, const String& s) {
+	out << s.data;
+	return out;
+}
+
+
+istream& operator>>(istream& in, String& s) {
+	const int buff_size = 256;
+	char buffer[buff_size];
+	s.set_str("");
+	if (in.peek() == '\n') {
+		in.ignore();
+	}
+	do {
+		in.get(buffer, buff_size);
+		s.add_str(buffer);
+	} while (strlen(buffer) == buff_size - 1);
+	return in;
 }

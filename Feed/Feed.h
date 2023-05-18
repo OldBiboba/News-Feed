@@ -24,6 +24,8 @@ public:
 
 	Post& operator[](int index) const;
 
+	void save(ofstream& fout);
+	void load(ifstream& fin);
 
 protected:
 	Array<Post> post_array;

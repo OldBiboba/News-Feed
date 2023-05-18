@@ -81,6 +81,36 @@ Post& Unauthorized_Feed::operator[](int index) const{
 	throw out_of_range("Feed: attempt to access an element with a non-existent index");
 }
 
+void Unauthorized_Feed::save(ofstream& fout){
+	if (!fout.is_open()) {
+		return;
+	}
+
+	int post_count = post_array.get_count();
+	fout.write((char*)&post_count, sizeof(int));
+
+	for (int i = 0; i < post_count; i++) {
+		post_array.get_element(i).save(fout);
+	}
+}
+
+void Unauthorized_Feed::load(ifstream& fin){
+	if (!fin.is_open()) {
+		return;
+	}
+
+	int post_count;
+	fin.read((char*)&post_count, sizeof(int));
+
+	for (int i = 0; i < post_count; i++) {
+		Post* post = load_Post(fin);
+		if (post != nullptr) {
+			add_post(*post);
+			delete post;
+		}
+	}
+}
+
 
 void Unauthorized_Feed::one_post_interface() {
 	int current_post_idx = 0;

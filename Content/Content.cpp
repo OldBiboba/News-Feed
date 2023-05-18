@@ -41,6 +41,21 @@ Content::operator char* (){
 	return get_data();
 }
 
+istream& Content::set(istream& in){
+	in >> author;
+	in >> date;
+	return in;
+}
+
+void Content::save(ofstream& fout){
+	if (!fout.is_open()) {
+		return;
+	}
+
+	author.save(fout);
+	fout.write((char*)&date, sizeof(time_t));
+}
+
 
 Text_Content::Text_Content() : Content(), data{ "Default content string" } {}
 
@@ -82,9 +97,38 @@ const Text_Content Text_Content::operator+(const char* str){
 	return result;
 }
 
+ostream& Text_Content::get(ostream& out) const{
+	out << "Text_Content(\n\"" << data << "\",\n" << author << ", " << date << ")";
+	return out;
+}
+
+istream& Text_Content::set(istream& in){
+	Content::set(in);
+	in >> data;
+	return in;
+}
+
+void Text_Content::save(ofstream& fout){
+	Content::save(fout);
+	char type = 1;
+	fout.write(&type, sizeof(char));
+	data.save(fout);
+}
+
 const char* Text_Content::get_type(){
 	return "Text Content";
 }
+
+ostream& operator<<(ostream& out, const Content& c){
+	return c.get(out);
+}
+
+istream& operator>>(istream& in, Content& c){
+	return c.set(in);
+}
+
+
+
 
 
 
@@ -147,4 +191,71 @@ Image_Content Image_Content::operator+(const char* str) {
 	Image_Content result(*this);
 	result.picture.add_str(str);
 	return result;
+}
+
+ostream& Image_Content::get(ostream& out) const{
+	out << "Image_Content(\"\n" << picture << "\",\n" << author << ", " << date << ", "
+		<< device_name << ", " << color_depth << ")";
+	return out;
+}
+
+istream& Image_Content::set(istream& in){
+	Content::set(in);
+	in >> picture;
+	in >> device_name;
+	in >> color_depth;
+	return in;
+}
+
+void Image_Content::save(ofstream& fout){
+	Content::save(fout);
+	char type = 2;
+	fout.write(&type, sizeof(char));
+	picture.save(fout);
+	device_name.save(fout);
+	fout.write((char*)&color_depth, sizeof(int));
+}
+
+
+
+
+
+
+Content* load_Content(ifstream& fin){
+	if (!fin.is_open()) {
+		return nullptr;
+	}
+
+	String author;
+	author.load(fin);
+
+	time_t date;
+	fin.read((char*)&date, sizeof(time_t));
+
+	char type;
+	fin.read(&type, sizeof(char));
+
+	if (type == 1) {
+		Text_Content* result = new Text_Content;
+
+		result->data.load(fin);
+		result->author = author;
+		result->date = date;
+
+		return result;
+	}
+	else if (type == 2) {
+		Image_Content* result = new Image_Content;
+
+		result->picture.load(fin);
+		result->device_name.load(fin);
+		fin.read((char*)&(result->color_depth), sizeof(int));
+		result->author = author;
+		result->date = date;
+
+		return result;
+	}
+
+	return nullptr;
+		
 }
